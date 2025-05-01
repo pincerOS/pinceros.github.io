@@ -66,15 +66,31 @@ Available recipes:
 
 # Development Status 🚧
 
-- [x] Basic kernel functionality
-- [x] Multi-core support
-- [ ] Network stack
-- [ ] Application support
-- [ ] File system
-- [ ] Device drivers
-- [ ] Security module
-- [ ] Distributed computing support
-
+| **Kernel**                                   | Status | **Usermode**                               | Status |
+|---------------------------------------------|--------|--------------------------------------------|--------|
+| Runs on QEMU                                | ✅      | Language runtime support (minimum libc)    | ✅      |
+| Runs on Hardware                            | ✅      | Processes + process management syscalls    | ✅      |
+| Concurrent events/threading/scheduling      | ✅      | User mode threads                          | ✅      |
+| Parallel                                     | ✅      | Signals                                    | ❌      |
+| Sync prims                                   | ✅      | mmap                                       | ✅      |
+| Kernel preemption                            | ✅      | fork                                       | ✅      |
+| Virtual memory + mmap                        | ✅      | exec                                       | ✅      |
+| Tracing/debugging                            | ❌      | File io syscalls                           | ✅      |
+| File system                                  | ✅      | Sockets                                    | ✅      |
+| UART                                         | ✅      | Network presence (IP, discoverable)        | ✅      |
+| VGA or equivalent                            | ✅      | User ids                                   | ✅      |
+| Sound card                                   | ✅      | Login                                      | ❌      |
+| Mouse                                        | ✅      | Access control                             | ❌      |
+| Keyboard                                     | ✅      | Capabilities                               | ❌      |
+| NIC                                          | ✅      | Shell (text)                               | ✅      |
+| Timer                                        | ✅      | Shell (GUI)                                | ✅      |
+| DMA                                          | ❌      | Window manager                             | ✅      |
+| Disk                                         | ✅      | Sound                                      | ❌      |
+| Processes                                    | ✅      | Graphics                                   | ✅      |
+| Distributed                                  | ❌      | Init system                                | ✅      |
+| Shared libraries and dynamic loading         | ❌      | Applications                               | ✅      |
+|                                              |        | Running video game                         | ✅      |
+|                                              |        | Distributed fork                           | ❌      |
 
 # Credits 🎓
 This project is a collaboration between students at the University of Texas at Austin. 🤘
