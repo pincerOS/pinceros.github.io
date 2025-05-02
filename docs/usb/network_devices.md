@@ -1,6 +1,7 @@
 ---
 title: Networking Devices
 nav_order: 4
+parent: USB
 ---
 
 # Networking Devices

@@ -1,6 +1,7 @@
 ---
 title: Usb Enumeration
 nav_order: 2
+parent: USB
 ---
 
 # Usb Enumeration

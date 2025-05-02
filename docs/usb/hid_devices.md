@@ -1,6 +1,7 @@
 ---
 title: HID Keyboard and Mouse
 nav_order: 3
+parent: USB
 ---
 
 # HID Keyboard and Mouse
