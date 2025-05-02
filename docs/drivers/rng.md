@@ -1,7 +1,7 @@
 ---
 title: RNG
 nav_order: 3
-parent: drivers
+parent: Drivers
 ---
 
 # RNG Driver

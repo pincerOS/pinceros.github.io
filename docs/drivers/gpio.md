@@ -1,7 +1,7 @@
 ---
 title: GPIO
 nav_order: 2
-parent: drivers
+parent: Drivers
 ---
 
 # GPIO Driver

@@ -1,5 +1,5 @@
 ---
-title: Device Drivers
+title: Drivers
 nav_order: 5
 ---
 
