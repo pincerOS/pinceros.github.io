@@ -3,7 +3,7 @@ title: USB
 nav_order: 3
 ---
 
-# Networking
+# USB
 {: .no_toc }
 
 ---
