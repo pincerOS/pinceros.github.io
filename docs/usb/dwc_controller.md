@@ -1,14 +1,7 @@
 ---
-title: DWC USB Controller  
+title: DWC‑OTG USB 2.0 Controller 
 nav_order: 1
 parent: USB
----
-
-# DWC‑OTG USB 2.0 Controller  
-{: .no_toc }
-
-**Author:** Aaron Lo [@22aronl](https://github.com/22aronl/)  
-
 ---
 
 ## Overview

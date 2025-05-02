@@ -4,13 +4,6 @@ nav_order: 2
 parent: USB
 ---
 
-# Usb Enumeration
-{: .no_toc }
-
----
-
-Author: Aaron Lo [@22aronl](https://github.com/22aronl/)
-
 # USB Enumeration Process
 
 The USB enumeration process identifies and configures a newly connected USB device so that the host can communicate with it. When a device is plugged in, the host controller and USB stack perform a series of control transfers to determine the device’s capabilities and assign it an address.
@@ -133,6 +126,3 @@ Based on the class, subclass, protocol, VID/PID and interface descriptors:
 ## 12. Device Ready
 
 With the configuration set and the driver loaded, the device is in the **Configured** state. The host can now issue transfers on the data endpoints to send and receive application data.
-
-
-{: .fs-6 .fw-300 }

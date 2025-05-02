@@ -4,13 +4,6 @@ nav_order: 3
 parent: USB
 ---
 
-# HID Keyboard and Mouse
-{: .no_toc }
-
----
-
-Author: Aaron Lo [@22aronl](https://github.com/22aronl/)
-
 # Human Interface Device (HID) Interface
 
 The USB Human Interface Device (HID) interface provides a standardized way for the host to communicate with input and output peripherals—keyboards, mice, joysticks, gamepads, and other user-interface devices. HID emphasizes simplicity and efficiency, abstracting device-specific details behind two primary data structures:
@@ -117,5 +110,3 @@ Optional, bi‑directional reports for configuration (e.g., backlight settings, 
 1. GET_DESCRIPTOR(Device) → Device Descriptor  
 2. GET_DESCRIPTOR(Configuration) → Configuration + Interface + HID + Endpoint Descriptors  
 3. GET_DESCRIPTOR(HID Report) → Report Descriptor  
-
-{: .fs-6 .fw-300 }

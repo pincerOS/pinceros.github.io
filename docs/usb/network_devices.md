@@ -4,12 +4,6 @@ nav_order: 4
 parent: USB
 ---
 
-# Networking Devices
-{: .no_toc }
-
----
-
-Author: Aaron Lo [@22aronl](https://github.com/22aronl/)
 
 # USB CDC Networking Device (CDC-ECM / CDC-NCM)
 
@@ -75,5 +69,3 @@ The **ASIX AX88179** is a popular USB 3.0 → Gigabit Ethernet chip.
 Since its protocol is proprietary, and PincerOS does not have the datasheet, the driver is not fully implemented. We run into an issue of after receiving for a while, the chip starts reporting gibberish data or stops receiving altogether. This may be an issue in how the chip is configured but without the datasheet, it is hard to really know. 
 
 ---
-
-{: .fs-6 .fw-300 }

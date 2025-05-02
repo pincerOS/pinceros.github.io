@@ -4,13 +4,6 @@ nav_order: 5
 parent: USB
 ---
 
-# Split Control Transfers 2.0
-{: .no_toc }
-
----
-
-Author: Aaron Lo [@22aronl](https://github.com/22aronl/)
-
 # USB Split Control Transfers
 
 When a host and device share the same USB speed (Full‑Speed at 12 Mbps or High‑Speed at 480 Mbps), transactions proceed directly: the host sends data packets, the device responds, and the protocol remains uniform. However, when a High‑Speed host needs to communicate with a Full‑Speed device, the disparity in signaling and timing requires a special mechanism. Without it, the High‑Speed host’s 480 Mbps signaling would overwhelm a Full‑Speed device limited to 12 Mbps.
@@ -105,6 +98,3 @@ A split transaction consists of three phases:
 ---
 
 By leveraging Split Control Transfers and the hub’s Transaction Translator, USB stacks can seamlessly communicate across speed boundaries, ensuring reliable operation of mixed‑speed USB topologies.
-
-
-{: .fs-6 .fw-300 }
