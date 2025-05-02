@@ -12,11 +12,11 @@ Author: Hunter Ross [@hunteross](https://github.com/hunteross/)
 
 ## SD Card Driver
 
-### Source: /crates/kernel/src/device/sdcard.rs
+### Source: [/crates/kernel/src/device/sdcard.rs](https://github.com/pincerOS/kernel/blob/main/crates/kernel/src/device/sdcard.rs)
 
 This driver was initially developed with hardware in mind and thus was ported from another [bare metal Raspberry Pi project](https://github.com/rsta2/circle/blob/master/addon/SDCard/emmc.cpp)
 
-The SD Card initializes correctly on hardware w/out issue and only minor changes are needed to initialize on QEMU. For R/W on QEMU some other minor changes are needed. These can be seen on the branch `ext2-sd-test`.
+The SD Card initializes correctly on hardware w/out issue and only minor changes are needed to initialize on QEMU. For R/W on QEMU some other minor changes are needed. These can be seen on the branch [`ext2-sd-test`](https://github.com/pincerOS/kernel/compare/main...ext2-sd-test).
 
 ---
 

@@ -10,7 +10,7 @@ Author: Hunter Ross [@hunteross](https://github.com/hunteross/)
 
 ---
 
-### Source: /crates/kernel/src/device/gpio.rs
+### Source: [/crates/kernel/src/device/gpio.rs](https://github.com/pincerOS/kernel/blob/main/crates/kernel/src/device/gpio.rs)
 
 This driver is used to configure the GPIO pins on the Raspberry Pi 4. The Raspberry Pi 4 has a total of 58 GPIO pins. GPIO configuration could be necessary in order to have other subsystems function correctly.
 

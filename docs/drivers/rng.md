@@ -10,7 +10,7 @@ Author: Hunter Ross [@hunteross](https://github.com/hunteross/)
 
 ---
 
-### Source: /crates/kernel/src/device/rng.rs
+### Source: [/crates/kernel/src/device/rng.rs](https://github.com/pincerOS/kernel/blob/main/crates/kernel/src/device/rng.rs)
 
 *Note: This driver is for the Raspberry Pi 3 (BCM2385) and will not work for the Raspberry Pi 4. This driver has also not been thoroughly tested.*
 
