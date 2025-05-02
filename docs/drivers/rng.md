@@ -12,13 +12,13 @@ Author: Hunter Ross [@hunteross](https://github.com/hunteross/)
 
 ### Source: /crates/kernel/src/device/rng.rs
 
-*Note: This driver is for the Raspberry Pi 3 (BCM2385) and will not work for the raspberry pi 4. This driver has also not been thoroughly tested*
+*Note: This driver is for the Raspberry Pi 3 (BCM2385) and will not work for the Raspberry Pi 4. This driver has also not been thoroughly tested.*
 
 ---
 
 ## API
 
-**rng_read(&mut self, buf: &mut [u32], wait: bool) -> usize**
+### rng_read(&mut self, buf: &mut [u32], wait: bool) -> usize
 
 The rng device will try to fill the provided buffer with as many random words as it can. 
 
