@@ -12,26 +12,37 @@ Now that I was able to build mlibc, I needed to start actually implementing the 
 
 1. Now cautiously optimistic, I decide to stub out all of the functions that mlibc needs to work (and are giving me the linker errors), to at least make sure I can do that and resolve any issues, before I actually start implementing them. I mainly follow the Managarm sysdep to find what it should all look like. And it compiles successfully! It successfully builds several shared object files, including `libc.so` and `ld.so`. To double check everything, I run `file build/libc.so` and am pleased to see that it is an ELF 64-bit shared object for aarch64.
     - Note that it does say `warning: .fini_array section has zero size`. This is because I do not have any global destructors, and adding one makes the warning go away.
-![File explorer showing the contents of the pinceros subdirectory of sysdeps](images/implementation_files.png)
-![Stubbed out functions for sys_anon_allocate and sys_anon_free (mmap and munmap anonymous), using the macro MLIBC_UNIMPLEMENTED](images/memory.png)
-![Stubbed out functions for file operations (sys_open, sys_read, sys_write, sys_seek, sys_close, sys_stat), using the macro MLIBC_UNIMPLEMENTED](images/file.png)
-![A successful build, with no errors, only the 1 .fini_array warning, and a 0 exit code](images/yay_compiles.png)
-![File explorer showing the contents of the build directory with meson and ninja files, alongside the produced files including ld.so, libc.so, libdl.so, libm.so, and more](images/compiled_objects.png)
-![The output of running file build/libc.so: build/libc.so: ELF 64-bit LSB shared object, ARM aarch64, version 1 (GNU/Linux), dynamically linked, with debug_info, not stripped](images/libc_so.png)
+
+    ![File explorer showing the contents of the pinceros subdirectory of sysdeps](images/implementation_files.png)
+    ![Stubbed out functions for sys_anon_allocate and sys_anon_free (mmap and munmap anonymous), using the macro MLIBC_UNIMPLEMENTED](images/memory.png)
+    ![Stubbed out functions for file operations (sys_open, sys_read, sys_write, sys_seek, sys_close, sys_stat), using the macro MLIBC_UNIMPLEMENTED](images/file.png)
+    ![A successful build, with no errors, only the 1 .fini_array warning, and a 0 exit code](images/yay_compiles.png)
+    ![File explorer showing the contents of the build directory with meson and ninja files, alongside the produced files including ld.so, libc.so, libdl.so, libm.so, and more](images/compiled_objects.png)
+    ![The output of running file build/libc.so: build/libc.so: ELF 64-bit LSB shared object, ARM aarch64, version 1 (GNU/Linux), dynamically linked, with debug_info, not stripped](images/libc_so.png)
+
 2. Now if I can just link with a sample program, it should pretty much just work [I thought optimistically]. I find a [StackOverflow answer](https://stackoverflow.com/a/5841817) on how to link with a different libc. It was as simple as `aarch64-linux-gnu-gcc -Xlinker -rpath=./build/ -Xlinker -I./build/ld.so test.c`! gcc exits with success, and the output file metadata looks good. But I can't easily test it, since I have an x86-64 machine. I could probably get a Linux ISO and boot it up in QEMU, but at this moment I'm running around campus working on my laptop between classes, so the quicker thing to do is just use the few Google Cloud credits I have leftover from a cloud computing class and spin up an ARM VM for a few minutes to test with. But then I don't really know how I'll get the shared library to work correctly on Linux, considering that it was built with a custom linker. So I end up switching over to trying a static binary instead (by appending `-static` to the gcc command above). I upload the file and try to run it in GDB on the ARM machine. But when I try setting a breakpoint on `sys_exit` (Just running a simple C program that immediately calls `exit` which in mlibc calls `mlibc::sys_exit` defined by the sysdep), but there is no such symbol. Not completely trusting this, I load up the file in [Ghidra](https://ghidra-sre.org/), and sure enough none of the `sys_` symbols were there.
-![The StackOverflow answer describing how to link with a custom libc](images/stackoverflow.png)
-![The output of running file a.out: a.out: ELF 64-bit LSB pie executable, ARM aarch64, version 1 (SYSV), dynamically linked, interpreter ./build/ld.so, for GNU/Linux 3.7.0, not stripped](images/dynamically_linked.png)
-![GDB output containing the output: Function "sys_exit" not defined, after attempting to run `b sys_exit`](images/breakpoint_sys_exit.png)
-![The Ghidra symbol table, showing all of the sys* symbols, and none look like those used by mlibc](images/ghidra.png)
+
+    ![The StackOverflow answer describing how to link with a custom libc](images/stackoverflow.png)
+    ![The output of running file a.out: a.out: ELF 64-bit LSB pie executable, ARM aarch64, version 1 (SYSV), dynamically linked, interpreter ./build/ld.so, for GNU/Linux 3.7.0, not stripped](images/dynamically_linked.png)
+    ![GDB output containing the output: Function "sys_exit" not defined, after attempting to run `b sys_exit`](images/breakpoint_sys_exit.png)
+    ![The Ghidra symbol table, showing all of the sys_* symbols, and none look like those used by mlibc](images/ghidra.png)
+
 3. While previously, I had been using the `meson setup` option for mlibc `-Ddefault_library=both`, to build both shared and static libraries, I decide to focus on static libraries to try to get that part working first. So now I run `meson setup build --cross-file scripts/aarch64-pinceros-gcc.txt --reconfigure -Ddefault_library=static`, recompile mlibc, and try to link with the test program again. However, this yields a massive wall of undefined reference linker errors, to mainly what seem to be functions relating to floating point and atomic operations.
-![A snippet of the linker error output, showing about a dozen linker errors such as: undefined reference to `__gttf2` and undefined reference to `__aarch64_cas4_acq`](images/linker_errors.png)
+
+    ![A snippet of the linker error output, showing about a dozen linker errors such as: undefined reference to `__gttf2` and undefined reference to `__aarch64_cas4_acq`](images/linker_errors.png)
+
 4. At this point, I actually join the Managarm Discord server using the link in the README to see if anyone has encountered similar issues before. I search for "undefined reference to __dso_handle" since that is in the first error. I eventually see a conversation from October 5, 2020 between @geertiebear and @Beliriel which makes me think to try installing after compiling. So I run `meson install -C build --destdir=./install`
-![A Discord conversation between @geertiebear and @Beliriel discussing needing to meson install](images/discord.png)
+
+    ![A Discord conversation between @geertiebear and @Beliriel discussing needing to meson install](images/discord.png)
+
 5. Now after installing, when I try to link I get a different set of undefined reference linker errors, which are almost entirely related to atomic instructions. Which seems like an improvement from before.
-![Very similar linker errors to before, except for now they all relate to atomics such as `__aarch64_swp4_rel` and `__aarch64_cas4_acq`](images/atomic_errors.png)
+
+    ![Very similar linker errors to before, except for now they all relate to atomics such as `__aarch64_swp4_rel` and `__aarch64_cas4_acq`](images/atomic_errors.png)
+
 6. At this point, I feel like I am just going in circles, so I decide to give clang another try. I'm going to omit the majority of this because it ended up being a dead end, but basically I clone the `llvm-project` repo and try building `compiler-rt` and using `clang` for everything. It did not end up well for me.
 7. After that fails, I decide that instead of trying to use gcc for both libc and the test program, what if I were to use gcc for libc and clang for the test program? First I have to create some stubs for the undefined references (they won't behave correctly, but I just want to be able to build). It am able to successfully build without linker errors. When I run it on the ARM VM, there is a stack overflow, but the good news is that I observe that it is clearly running with mlibc by looking at the stack trace! (The `__ensure_fail` function and the logging system mutually recursively calling each other, since the logger is stubbed out with the `MLIBC_UNIMPLEMENTED` macro which ensures failure, which involves logging, and so on)
-![GDB stack trace clearly showing mlibc namespace functions being run, with mutual recursion between the logging functions and __ensure_fail causing a stack overflow](images/stack_trace.png)
+
+    ![GDB stack trace clearly showing mlibc namespace functions being run, with mutual recursion between the logging functions and __ensure_fail causing a stack overflow](images/stack_trace.png)
 
 ## Simplifying the Build Process
 
